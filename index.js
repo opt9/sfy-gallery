@@ -21,7 +21,7 @@ var api_key = "";
 var username = "";
 var _token = "";
 
-app.get('/',function(req, res){
+app.get('/',function(req, res,next){
   //Fetch elements from Storify API
   superagent.get("http://api.storify.com/v1/stories/" + user + "/" + story_slug)
     .query({api_key: api_key,
