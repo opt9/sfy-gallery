@@ -1,6 +1,17 @@
 var express = require('express');
 var superagent = require('superagent');
 var consolidate = require('consolidate');
+var Handlebars = require('handlebars');
+
+Handlebars.registerHelper('each_upto', function(max, ary, options) {
+    if(!ary || ary.length == 0)
+        return options.inverse(this);
+
+    var result = [ ];
+    for(var i = 0; i < max && i < ary.length; ++i)
+        result.push(options.fn(ary[i]));
+    return result.join('');
+});
 
 
 var app = express();
@@ -13,11 +24,10 @@ app.set('views', __dirname + '/views');
 //Set up static folder
 app.use(express.static(__dirname + '/public'));
 
-var user = 'azat_co';
-var story_slug = 'kazan';
-
-//Paste your values
+var user = 'opt9';
+var story_slug = 'funny-it-fails';
 var api_key = "";
+
 var username = "";
 var _token = "";
 
@@ -30,10 +40,11 @@ app.get('/',function(req, res,next){
     .set({  Accept: 'application/json' })
     .end(function(e, storifyResponse){
       if (e) next(e);
-      //Render template with story object in response body     
-      return res.render('index',storifyResponse.body.content);      
+      //Render template with story object in response body
+      return res.render('index',storifyResponse.body.content);
     })
 
 })
 
-app.listen(3001);
+app.listen(4568);
+console.log('Server running at http://localhost:4568/');
